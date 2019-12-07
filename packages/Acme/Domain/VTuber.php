@@ -34,6 +34,11 @@ class VTuber
         return $this->age;
     }
 
+    public function thisFunctionShouldBeWatchedByDog2(): string
+    {
+        return $this->age;
+    }
+
     /**
      * @return string
      */
