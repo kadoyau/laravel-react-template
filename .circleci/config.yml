@@ -57,7 +57,13 @@ jobs:
       - run: cp .env.ci .env.testing
       - run: php artisan key:generate --env=testing
       - run: php artisan migrate --env=testing --force
-
+      - run:
+          name: Install reviewdog
+          command: "curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o reviewdog && chmod +x ./reviewdog"
+      - run:
+          shell: /bin/sh
+          name: Run reviewdog
+          command: php artisan code:analyse --env=testing --paths="packages" --error-format raw --no-progress --level=7 --no-tty 2>&1 | ./reviewdog -f=phpstan -reporter=github-pr-review
       - run:
           name: Run tests
           command: |
